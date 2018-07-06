@@ -107,11 +107,20 @@ $(function() {
                * by the loadFeed function that the content actually changes.
                * Remember, loadFeed() is asynchronous.
                */
+     var firstFeed,
+       secondFeed;
       beforeEach (function(done) {
-         loadFeed(0, done);
+         $('.feed').empty();
+         loadFeed(0, function(){
+            firstFeed = document.querySelectorAll(".entry");
+         });
+         loadFeed(1, function(){
+            secondFeed = document.querySelectorAll(".entry");
+           done();
+         });
        });
       it("the loadFeed content changes", function(done){
-        expect($('.header .header-title').html()).toBe(allFeeds[0].name);
+        expect(firstFeed).not.toEqual(secondFeed);
         done();
       });
 
